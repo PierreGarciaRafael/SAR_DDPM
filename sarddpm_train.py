@@ -3,28 +3,27 @@ Train SAR-DDPM model.
 """
 
 import argparse
-
 import torch.nn.functional as F
 
-from guided_diffusion import dist_util, logger
-from guided_diffusion.image_datasets import load_data
-from guided_diffusion.resample import create_named_schedule_sampler
-from guided_diffusion.script_util import (
+from guideddiffusion import dist_util, logger
+from guideddiffusion.image_datasets import load_data
+from guideddiffusion.resample import create_named_schedule_sampler
+from guideddiffusion.script_util import (
     sr_model_and_diffusion_defaults,
     sr_create_model_and_diffusion,
     args_to_dict,
     add_dict_to_argparser,
 )
-from guided_diffusion.train_util import TrainLoop
+from guideddiffusion.train_util import TrainLoop
 from torch.utils.data import DataLoader
 # from train_dataset import TrainData
 from valdata import  ValData, ValDataNew
 
-train_dir = 'path_to_training_data/'
+train_dir = '../DSIFN/train/t1/'
    
-val_dir = 'path_to_validation_data/'
+val_dir = '../DSIFN/val/t1/'
 
-pretrained_weight_path = "./weights/64_256_upsampler.pt"
+pretrained_weight_path = None #"./weights/64_256_upsampler.pt"
 
 
 def main():
@@ -37,6 +36,7 @@ def main():
     model, diffusion = sr_create_model_and_diffusion(
         **args_to_dict(args, sr_model_and_diffusion_defaults().keys())
     )
+
     model.to(dist_util.dev())
     schedule_sampler = create_named_schedule_sampler(args.schedule_sampler, diffusion)
 
@@ -47,7 +47,6 @@ def main():
     val_data = DataLoader(ValDataNew(dataset_path=val_dir), batch_size=1, shuffle=False, num_workers=1) 
 
 
-    print(args)
     data = load_sar_data(
         args.data_dir,
         train_dir,
