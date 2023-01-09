@@ -2,7 +2,7 @@ import math
 import random
 import torch as th
 from PIL import Image
-import blobfile as bf
+import os
 from mpi4py import MPI
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
@@ -46,12 +46,6 @@ def load_data(
         raise ValueError("unspecified data directory")
     all_files = _list_image_files_recursively(data_dir)
     classes = None
-    if class_cond:
-        # Assume classes are the first part of the filename,
-        # before an underscore.
-        class_names = [bf.basename(path).split("_")[0] for path in all_files]
-        sorted_classes = {x: i for i, x in enumerate(sorted(set(class_names)))}
-        classes = [sorted_classes[x] for x in class_names]
     dataset = ImageDataset(
         image_size,
         all_files,
@@ -76,12 +70,12 @@ def load_data(
 
 def _list_image_files_recursively(data_dir):
     results = []
-    for entry in sorted(bf.listdir(data_dir)):
-        full_path = bf.join(data_dir, entry)
+    for entry in sorted(os.listdir(data_dir)):
+        full_path = os.join(data_dir, entry)
         ext = entry.split(".")[-1]
         if "." in entry and ext.lower() in ["jpg", "jpeg", "png", "gif"]:
             results.append(full_path)
-        elif bf.isdir(full_path):
+        elif os.isdir(full_path):
             results.extend(_list_image_files_recursively(full_path))
     return results
 
@@ -143,7 +137,7 @@ class ImageDataset(Dataset):
         
         
 
-        im1 = ((np.float32(pil_image)+1.0)/256.0)**2
+        im1 = ((np.float32(pil_image)+1.0)/256.0)**2 # TOCHANGE Why square?
         gamma_noise = seed.gamma(size=im1.shape, shape=1.0, scale=1.0).astype(im1.dtype)
         syn_sar = np.sqrt(im1 * gamma_noise)
         pil_image1 = syn_sar * 256-1   ## Noisy image
