@@ -19,9 +19,9 @@ from torch.utils.data import DataLoader
 # from train_dataset import TrainData
 from valdata import  ValData, ValDataNew
 
-train_dir = '../DSIFN/train/'
+train_dir = '../DSIFN/train/t1/'
    
-val_dir = '../DSIFN/val/'
+val_dir = '../DSIFN/val/t1/'
 
 pretrained_weight_path = None #"./weights/64_256_upsampler.pt"
 
