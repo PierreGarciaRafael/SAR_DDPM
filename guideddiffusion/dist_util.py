@@ -6,7 +6,7 @@ import io
 import os
 import socket
 
-import os
+import blobfile as bf
 from mpi4py import MPI
 import torch as th
 import torch.distributed as dist
@@ -59,7 +59,7 @@ def load_state_dict(path, **kwargs):
     """
     chunk_size = 2 ** 30  # MPI has a relatively small size limit
     if MPI.COMM_WORLD.Get_rank() == 0:
-        with os.open(path, "rb") as f:
+        with bf.BlobFile(path, "rb") as f:
             data = f.read()
         num_chunks = len(data) // chunk_size
         if len(data) % chunk_size:
