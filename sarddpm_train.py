@@ -23,7 +23,7 @@ train_dir = '../DSIFN/train/t1/'
    
 val_dir = '../DSIFN/val/t1/'
 
-pretrained_weight_path = None #"./weights/64_256_upsampler.pt"
+pretrained_weight_path = "./weights/64_256_upsampler.pt"
 
 
 def main():
@@ -76,6 +76,7 @@ def main():
         weight_decay=args.weight_decay,
         lr_anneal_steps=args.lr_anneal_steps,
     ).run_loop()
+    print("finished execution")
 
 
 def load_sar_data(data_dir,gt_dirs, batch_size, large_size, small_size, class_cond=False):

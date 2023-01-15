@@ -171,9 +171,9 @@ class TrainLoop:
 
             batch, cond = next(self.data)
             self.run_step(batch, cond)
-            
 
-            
+
+
 
             if (self.step+1) % self.save_interval == 0:
                 
@@ -233,6 +233,16 @@ class TrainLoop:
 
                             
                             psnr_val = psnr_val + psnr_im
+                            if batch_id1 == 0:
+                                basePathName = "/testing/"+str(self.step)
+                                speck = model_kwargs['SR']
+                                speck = ((speck + 1) * 127.5)
+                                speck = speck.clamp(0, 255).to(th.uint8)
+                                speck = speck.permute(0, 2, 3, 1)
+                                speck = speck.contiguous().cpu().numpy()
+                                cv2.imwrite(basePathName + "speckled.png", speck)
+                                cv2.imwrite(basePathName + "clean.png", clean_image)
+                                cv2.imwrite(basePathName + "sample.png", sample)
 
                         
                         psnr_val = psnr_val/number

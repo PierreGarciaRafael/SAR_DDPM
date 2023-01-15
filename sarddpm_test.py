@@ -10,16 +10,16 @@ import numpy as np
 
 import torch.nn.functional as F
 
-from guided_diffusion import dist_util, logger
-from guided_diffusion.image_datasets import load_data
-from guided_diffusion.resample import create_named_schedule_sampler
-from guided_diffusion.script_util import (
+from guideddiffusion import dist_util, logger
+from guideddiffusion.image_datasets import load_data
+from guideddiffusion.resample import create_named_schedule_sampler
+from guideddiffusion.script_util import (
     sr_model_and_diffusion_defaults,
     sr_create_model_and_diffusion,
     args_to_dict,
     add_dict_to_argparser,
 )
-from guided_diffusion.train_util import TrainLoop
+from guideddiffusion.train_util import TrainLoop
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
 
@@ -29,8 +29,8 @@ from skimage.metrics import structural_similarity as ssim
 
 
 
-val_dir = 'path_to_validation_data/'
-base_path = 'path_to_save_results/'
+val_dir = '../DSIFN/smallTest/'
+base_path = '../testResults/'
 resume_checkpoint_clean = './weights/sar_ddpm.pt'
 
 
