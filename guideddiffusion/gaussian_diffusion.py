@@ -194,7 +194,7 @@ class GaussianDiffusion:
         noiseShape = th.tensor(x_start.shape)
         noiseShape[rgbDim] = 1
         noise = th.randn(tuple(noiseShape), dtype = x_start.dtype, device = x_start.device)
-        rep = th.ones(len(noiseShape), dtype = "int")
+        rep = th.ones(len(noiseShape), dtype = th.int)
         rep[rgbDim] = 3
         return noise.repeat(tuple(rep))
     def q_sample(self, x_start, t, noise=None):
