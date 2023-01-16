@@ -187,16 +187,16 @@ class GaussianDiffusion:
         )
         return mean, variance, log_variance
     def bw_noise(self, x_start):
-        minDim = th.argmin(th.tensor(x_start.shape)) # dimension of the channels
-        if minDim ==0:
-            noise = th.randn((1,x_start.shape[1], x_start.shape[2]), dtype = x_start.dtype)
-            return noise.repeat(3,1,1)
-        elif minDim == 1:
-            noise = th.randn((x_start.shape[0], 1, x_start.shape[2]), dtype = x_start.dtype) #should be useless
-            return noise.repeat(1,3,1)
-        else:
-            noise = th.randn((x_start.shape[0], x_start.shape[1],1), dtype = x_start.dtype)
-            return noise.repeat(1,1,3)
+        rgbDim = 0
+        for i,c in enumerate(x_start.shape):
+            if c == 3:
+                rgbDim = i
+        noiseShape = th.tensor(x_start.shape)
+        noiseShape[rgbDim] = 1
+        noise = th.randn(tuple(noiseShape), dtype = x_start.dtype)
+        rep = np.ones(len(noiseShape), dtype = "int")
+        rep[rgbDim] = 3
+        return noise.repeat(tuple(rep))
     def q_sample(self, x_start, t, noise=None):
         """
         Diffuse the data for a given number of diffusion steps.
@@ -209,8 +209,8 @@ class GaussianDiffusion:
         :return: A noisy version of x_start.
         """
         if noise is None:
-            noise = bw_noise(x_start)
-        
+            noise = self.bw_noise(x_start)
+        assert noise.shape == x_start.shape
         return (
             _extract_into_tensor(self.sqrt_alphas_cumprod, t, x_start.shape) * x_start
             + _extract_into_tensor(self.sqrt_one_minus_alphas_cumprod, t, x_start.shape)
