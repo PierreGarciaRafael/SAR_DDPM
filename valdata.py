@@ -149,8 +149,8 @@ class ValDataNew(data.Dataset):
         
         
 
-        arr1 = cv2.resize(arr1, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
-        arr2= cv2.resize(arr2, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
+        arr1 = cv2.resize(arr1, (256,256), interpolation=cv2.INTER_LINEAR)
+        arr2 = cv2.resize(arr2, (256,256), interpolation=cv2.INTER_LINEAR)
         
 
         
