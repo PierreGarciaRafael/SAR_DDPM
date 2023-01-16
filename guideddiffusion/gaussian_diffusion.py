@@ -186,7 +186,14 @@ class GaussianDiffusion:
             self.log_one_minus_alphas_cumprod, t, x_start.shape
         )
         return mean, variance, log_variance
-
+    def bw_noise(self, x_start):
+        minDim = th.argmin(th.tensor(x_start.shape)) # dimension of the channels
+        if minDim ==0:
+            return th.randn((1,x_start.shape[1], x_start.shape[2]), dtype = x_start.dtype)
+        elif minDim == 1:
+            return th.randn((x_start.shape[0], 1, x_start.shape[2]), dtype = x_start.dtype) #should be useless
+        else:
+            return th.randn((x_start.shape[0], x_start.shape[1],1), dtype = x_start.dtype)
     def q_sample(self, x_start, t, noise=None):
         """
         Diffuse the data for a given number of diffusion steps.
@@ -198,10 +205,8 @@ class GaussianDiffusion:
         :param noise: if specified, the split-out normal noise.
         :return: A noisy version of x_start.
         """
-        print("q_sample")
         if noise is None:
-            noise = th.randn((x_start.shape[0], x_start.shape[1], 1), dtype = x_start.dtype)
-            print(noise.shape)
+            noise = bw_noise(x_start)
         
         return (
             _extract_into_tensor(self.sqrt_alphas_cumprod, t, x_start.shape) * x_start
@@ -841,7 +846,7 @@ class GaussianDiffusion:
         if model_kwargs is None:
             model_kwargs = {}
         if noise is None:
-            noise = th.randn_like(x_start)
+            noise = self.bw_noise(x_start)
         x_disto_start =  model_kwargs["SR"]
         
         # x_disto_start =  model_kwargs["noise"]
@@ -977,7 +982,7 @@ class GaussianDiffusion:
         mse = []
         for t in list(range(self.num_timesteps))[::-1]:
             t_batch = th.tensor([t] * batch_size, device=device)
-            noise = th.randn_like(x_start)
+            noise = self.bw_noise(x_start)
             x_t = self.q_sample(x_start=x_start, t=t_batch, noise=noise)
             # Calculate VLB term at the current timestep
             with th.no_grad():

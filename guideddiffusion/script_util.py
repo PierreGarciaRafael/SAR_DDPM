@@ -404,7 +404,6 @@ def create_gaussian_diffusion(
         loss_type = gd.LossType.MSE
     if not timestep_respacing:
         timestep_respacing = [steps]
-    print("in gauss diff cre")
     return SpacedDiffusion(
         use_timesteps=space_timesteps(steps, timestep_respacing),
         betas=betas,
