@@ -136,18 +136,15 @@ class ImageDataset(Dataset):
         path = self.local_images[idx]
         
 
-        pil_image = cv2.imread(path)      ## Clean image RGB
-        
+        pil_image = cv2.imread(path)
         pil_image = cv2.cvtColor(pil_image, cv2.COLOR_BGR2GRAY)
-        pil_image = np.repeat(pil_image[:,:,np.newaxis],3, axis=2)
-        
-        
 
+        gamma_noise = seed.gamma(size=pil_image.shape, shape=1.0, scale=1.0).astype(np.float32)
         im1 = ((np.float32(pil_image)+1.0)/256.0)**2
-        gamma_noise = seed.gamma(size=im1.shape, shape=1.0, scale=1.0).astype(im1.dtype)
         syn_sar = np.sqrt(im1 * gamma_noise)
-        pil_image1 = syn_sar * 256-1   ## Noisy image
 
+        pil_image1 = np.repeat((syn_sar * 256-1)[:,:,np.newaxis], 3, axis = 2)   ## Noisy image
+        pil_image = np.repeat(pil_image[:,:,np.newaxis], 3, axis = 2)            ## Clean image
         
 
         
@@ -156,8 +153,8 @@ class ImageDataset(Dataset):
         
         
 
-        arr1 = cv2.resize(arr1, (256,256), interpolation=cv2.INTER_LINEAR)
-        arr2= cv2.resize(arr2, (256,256), interpolation=cv2.INTER_LINEAR)
+        arr1 = cv2.resize(arr1, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
+        arr2= cv2.resize(arr2, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
         
 
         

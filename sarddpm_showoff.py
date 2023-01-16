@@ -79,7 +79,7 @@ def main():
 
             plt.imsave(base_path+'speck_'+str(batch_id1)+".png", speck)
 
-            
+
             sample_new = diffusion.p_sample_loop(
                             model_clean,
                             (clean_batch.shape[0], 3, 256,256),

@@ -198,9 +198,11 @@ class GaussianDiffusion:
         :param noise: if specified, the split-out normal noise.
         :return: A noisy version of x_start.
         """
+        print("q_sample")
         if noise is None:
-            noise = th.randn_like(x_start)
-        assert noise.shape == x_start.shape
+            noise = th.randn((x_start.shape[0], x_start.shape[1], 1), dtype = x_start.dtype)
+            print(noise.shape)
+        
         return (
             _extract_into_tensor(self.sqrt_alphas_cumprod, t, x_start.shape) * x_start
             + _extract_into_tensor(self.sqrt_one_minus_alphas_cumprod, t, x_start.shape)
