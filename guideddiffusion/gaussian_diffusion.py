@@ -189,11 +189,14 @@ class GaussianDiffusion:
     def bw_noise(self, x_start):
         minDim = th.argmin(th.tensor(x_start.shape)) # dimension of the channels
         if minDim ==0:
-            return th.randn((1,x_start.shape[1], x_start.shape[2]), dtype = x_start.dtype)
+            noise = th.randn((1,x_start.shape[1], x_start.shape[2]), dtype = x_start.dtype)
+            return noise.repeat(3,1,1)
         elif minDim == 1:
-            return th.randn((x_start.shape[0], 1, x_start.shape[2]), dtype = x_start.dtype) #should be useless
+            noise = th.randn((x_start.shape[0], 1, x_start.shape[2]), dtype = x_start.dtype) #should be useless
+            return noise.repeat(1,3,1)
         else:
-            return th.randn((x_start.shape[0], x_start.shape[1],1), dtype = x_start.dtype)
+            noise = th.randn((x_start.shape[0], x_start.shape[1],1), dtype = x_start.dtype)
+            return noise.repeat(1,1,3)
     def q_sample(self, x_start, t, noise=None):
         """
         Diffuse the data for a given number of diffusion steps.
