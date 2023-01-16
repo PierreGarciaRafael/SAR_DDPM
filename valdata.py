@@ -134,36 +134,42 @@ class ValDataNew(data.Dataset):
         pil_image = cv2.imread(os.path.join(self.noisy_path, image_filename))      ## Clean image
         
         pil_image = cv2.cvtColor(pil_image, cv2.COLOR_BGR2GRAY)
-        pil_image = np.repeat(pil_image[:,:,np.newaxis],3, axis=2)
-        # print(pil_image.shape)
-        
 
+        gamma_noise = seed.gamma(size=pil_image.shape, shape=1.0, scale=1.0).astype(np.float32)
         im1 = ((np.float32(pil_image)+1.0)/256.0)**2
-        gamma_noise = seed.gamma(size=im1.shape, shape=1.0, scale=1.0).astype(im1.dtype)
         syn_sar = np.sqrt(im1 * gamma_noise)
-        pil_image1 = syn_sar * 256-1   ## Noisy image
 
+        pil_image1 = np.repeat((syn_sar * 256-1)[:,:,np.newaxis], 3, axis = 2)   ## Noisy image
+        pil_image = np.repeat(pil_image[:,:,np.newaxis], 3, axis = 2)            ## Clean image
         
+
         
         arr1=np.array(pil_image)
         arr2=np.array(pil_image1)
         
         
 
-        arr1 = cv2.resize(arr1, (256,256), interpolation=cv2.INTER_LINEAR)
-        arr2= cv2.resize(arr2, (256,256), interpolation=cv2.INTER_LINEAR)
-       
+        arr1 = cv2.resize(arr1, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
+        arr2= cv2.resize(arr2, (self.resolution,self.resolution), interpolation=cv2.INTER_LINEAR)
+        
 
+        
 
         arr1 = arr1.astype(np.float32) / 127.5 - 1
         arr2 = arr2.astype(np.float32) / 127.5 - 1
         
+        
 
+        out_dict = {}
+        
+
+        
         arr2 = np.transpose(arr2, [2, 0, 1])
         arr1 = np.transpose(arr1, [2, 0, 1])
         
+        out_dict["SR"]=arr2
+        out_dict["HR"]=arr1
 
-       
         return arr1, {'SR': arr2, 'HR': arr1 , 'Index': image_filename}
         
 

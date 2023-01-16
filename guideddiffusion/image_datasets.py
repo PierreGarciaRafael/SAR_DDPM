@@ -174,8 +174,6 @@ class ImageDataset(Dataset):
         out_dict["SR"]=arr2
         out_dict["HR"]=arr1
 
-        
-
         return arr1, out_dict  
         
 
