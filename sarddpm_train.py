@@ -23,7 +23,7 @@ train_dir = '../DSIFN/train/t1/'
    
 val_dir = '../DSIFN/val/t1/'
 
-pretrained_weight_path = "./weights/64_256_upsampler.pt"
+pretrained_weight_path = None #"./weights/64_256_upsampler.pt"
 
 
 def main():
