@@ -6,7 +6,7 @@ python -m pip install --user (module_name)
 
 --resume_checkpoint ./weights/model000588.pt
 
-nohup python --resume_checkpoint ./weights/model000788.pt sarddpm_train.py --save_interval 100 &
+nohup python sarddpm_train.py --resume_checkpoint ./weights/model000788.pt --save_interval 100 &
 
 
 kill $(ps aux | grep 21112667 | awk '{print $2}' )
@@ -27,3 +27,9 @@ sur ton ordi perso:
 
     Dans un navigateur copier ce que donne le notebook qui ressemble à ça:
         http://127.0.0.1:8898/?token=
+
+Afficher l'historique git:
+git log --oneline
+
+Revenir à un commit:
+git reset --HARD [token]

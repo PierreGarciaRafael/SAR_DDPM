@@ -241,7 +241,7 @@ class TrainLoop:
                                 speck = ((speck + 1) * 127.5)
                                 speck = speck.clamp(0, 255).to(th.uint8)
                                 speck = speck.permute(0, 2, 3, 1)
-                                speck = speck.contiguous().cpu().numpy()
+                                speck = speck.contiguous().cpu().numpy()[0]
                                 print("saving some validation images to ", basePathName)
                                 cv2.imwrite(basePathName + str(self.step+1) + "speckled.png", speck)
                                 cv2.imwrite(basePathName + str(self.step+1) + "clean.png", clean_image)

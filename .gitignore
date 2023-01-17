@@ -5,3 +5,4 @@ guideddiffusion.egg-info/**
 *.pt
 nohup.out
 weights/*
+*.png
