@@ -3,3 +3,5 @@ aaaaaa
 *.pyc
 guideddiffusion.egg-info/**
 *.pt
+nohup.out
+weights/*
