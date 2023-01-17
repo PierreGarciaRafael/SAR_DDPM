@@ -6,9 +6,16 @@ python -m pip install --user (module_name)
 
 --resume_checkpoint ./weights/model000588.pt
 
-nohup python sarddpm_train.py --save_interval 1 &
-killall
+nohup python --resume_checkpoint ./weights/model000788.pt sarddpm_train.py --save_interval 100 &
 
+
+kill $(ps aux | grep 21112667 | awk '{print $2}' )
+affiche
+
+regarder tmux
+
+all user x=system
+ps aux | grep 21112667
 
 python sarddpm_train.py --resume_checkpoint ./weights/model000588.pt --save_interval 1
 

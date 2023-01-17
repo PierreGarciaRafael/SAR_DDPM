@@ -185,6 +185,7 @@ class TrainLoop:
                 with th.no_grad():
                         val_idx=val_idx+1
                         psnr_val = 0
+                        savedSomeImages = False
                         for batch_id1, data_var in enumerate(self.val_data):
                             clean_batch, model_kwargs1 = data_var
                             model_kwargs={}
@@ -233,16 +234,19 @@ class TrainLoop:
 
                             
                             psnr_val = psnr_val + psnr_im
-                            if batch_id1 == 0:
-                                basePathName = "/testing/"+str(self.step)
+                            if not savedSomeImages:
+                                
+                                basePathName = "./testing/"+str(self.step)
                                 speck = model_kwargs['SR']
                                 speck = ((speck + 1) * 127.5)
                                 speck = speck.clamp(0, 255).to(th.uint8)
                                 speck = speck.permute(0, 2, 3, 1)
                                 speck = speck.contiguous().cpu().numpy()
-                                cv2.imwrite(basePathName + "speckled.png", speck)
-                                cv2.imwrite(basePathName + "clean.png", clean_image)
-                                cv2.imwrite(basePathName + "sample.png", sample)
+                                print("saving some validation images to ", basePathName)
+                                cv2.imwrite(basePathName + str(self.step+1) + "speckled.png", speck)
+                                cv2.imwrite(basePathName + str(self.step+1) + "clean.png", clean_image)
+                                cv2.imwrite(basePathName + str(self.step+1) + "sample.png", sample)
+                                savedSomeImages = True
 
                         
                         psnr_val = psnr_val/number
