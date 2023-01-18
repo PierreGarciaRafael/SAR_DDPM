@@ -11,11 +11,11 @@ nohup python sarddpm_train.py --resume_checkpoint ./weights/model000788.pt --sav
 
 kill $(ps aux | grep 21112667 | awk '{print $2}' )
 affiche
+ps aux | grep 21112667
 
 regarder tmux
 
 all user x=system
-ps aux | grep 21112667
 
 python sarddpm_train.py --resume_checkpoint ./weights/model000588.pt --save_interval 1
 
