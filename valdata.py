@@ -155,8 +155,8 @@ class ValDataNew(data.Dataset):
 
         
 
-        arr1 = arr1.astype(np.float32) / 127.5 - 1
-        arr2 = arr2.astype(np.float32) / 127.5 - 1
+        arr1 = np.log(arr1 / 127.5).astype(np.float32)
+        arr2 = np.log(arr2 / 127.5).astype(np.float32)
         
         
 

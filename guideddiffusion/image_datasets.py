@@ -149,7 +149,7 @@ class ImageDataset(Dataset):
 
         
         arr1=np.array(pil_image)
-        arr2=np.array(pil_image1)
+        arr2=np.array(pil_image1)+1
         
         
 
@@ -159,10 +159,16 @@ class ImageDataset(Dataset):
 
         
 
-        arr1 = arr1.astype(np.float32) / 127.5 - 1
-        arr2 = arr2.astype(np.float32) / 127.5 - 1
+        arr1 = np.log(arr1 + .01).astype(np.float32)
+        arr2 = np.log(arr2 + .01).astype(np.float32)
         
-        
+        """
+        ftMean = -0.577216
+        ftVar = np.pi**2/6
+
+        arr1 = (arr1 + ftMean)/np.sqrt(ftVar) # noise rectification so it's centered reduced
+        arr2 = (arr2 + ftMean)/np.sqrt(ftVar) # noise rectification so it's centered reduced
+        """
 
         out_dict = {}
         
