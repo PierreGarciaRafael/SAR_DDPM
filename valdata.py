@@ -145,7 +145,7 @@ class ValDataNew(data.Dataset):
 
         
         arr1=np.array(pil_image)
-        arr2=np.array(pil_image1)
+        arr2=np.array(pil_image1)+1
         
         
 
@@ -155,8 +155,8 @@ class ValDataNew(data.Dataset):
 
         
 
-        arr1 = np.log(arr1 / 127.5).astype(np.float32)
-        arr2 = np.log(arr2 / 127.5).astype(np.float32)
+        arr1 = np.log(arr1 + .01).astype(np.float32)
+        arr2 = np.log(arr2 + .01).astype(np.float32)
         
         
 
