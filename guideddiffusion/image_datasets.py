@@ -162,6 +162,10 @@ class ImageDataset(Dataset):
         arr1 = np.log(arr1 + .01).astype(np.float32)
         arr2 = np.log(arr2 + .01).astype(np.float32)
         
+        m = np.min(arr2) # based on speckled image 
+        M = np.max(arr2) # because it's the only available in practice
+        arr1 = 2*((arr1 - m) /(M-m)-.5) #put between -1 & 1 
+        arr2 = 2*((arr2 - m) /(M-m)-.5) 
         """
         ftMean = -0.577216
         ftVar = np.pi**2/6

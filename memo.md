@@ -7,7 +7,10 @@ python -m pip install --user (module_name)
 --resume_checkpoint ./weights/model000588.pt
 
 nohup python sarddpm_train.py --resume_checkpoint ./weights/model000788.pt --save_interval 100 &
-nohup python sarddpm_train.py --save_interval 100 &
+nohup python sarddpm_train.py --resume_checkpoint ./weights/model000599.pt --save_interval 10 &
+
+
+nohup python sarddpm_train.py --save_interval 1 &
 
 kill $(ps aux | grep 21112667 | awk '{print $2}' )
 affiche
@@ -37,7 +40,10 @@ git reset --HARD [token]
 compresser:
 
 tar -zcvf archive-file-name.tar.gz your-folder/
+tar -zcvf testing.tar.gz testing/
 
 
 Vf la taille d'un fichier
 du -sh file
+
+https://partage.imt.fr/index.php/s/nTi6eZEZ3NP3BPi

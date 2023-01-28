@@ -170,7 +170,7 @@ class TrainLoop:
             # wandb_logger = WandbLogger()
 
             batch, cond = next(self.data)
-            self.run_step(batch, cond)
+            #self.run_step(batch, cond)
 
 
 
@@ -227,7 +227,8 @@ class TrainLoop:
                             sample = sample[0][:,:,::-1]
                             clean_image = cv2.cvtColor(clean_image, cv2.COLOR_BGR2GRAY)
                             sample = cv2.cvtColor(sample, cv2.COLOR_BGR2GRAY)
-                            
+                            print(np.values(np.array(clean_image)))
+                            print(np.values(np.array(sample)))
                             psnr_im = psnr(clean_image,sample)
                             # print(img_name[0])
                             # print(psnr_im)
@@ -242,6 +243,7 @@ class TrainLoop:
                                 speck = speck.clamp(0, 255).to(th.uint8)
                                 speck = speck.permute(0, 2, 3, 1)
                                 speck = speck.contiguous().cpu().numpy()[0]
+                                print(np.values(np.array(speck)))
                                 print("saving some validation images to ", basePathName)
                                 cv2.imwrite(basePathName + str(self.step+1) + "speckled.png", speck)
                                 cv2.imwrite(basePathName + str(self.step+1) + "clean.png", clean_image)
