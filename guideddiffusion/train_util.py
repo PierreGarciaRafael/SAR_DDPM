@@ -214,7 +214,7 @@ class TrainLoop:
 
 
                             number=number+1
-                            
+
                             clean_image = ((model_kwargs['HR']+1)* 127.5).clamp(0, 255).to(th.uint8)
                             clean_image= clean_image.permute(0, 2, 3, 1)
                             clean_image= clean_image.contiguous().cpu().numpy()
@@ -227,8 +227,6 @@ class TrainLoop:
                             sample = sample[0][:,:,::-1]
                             clean_image = cv2.cvtColor(clean_image, cv2.COLOR_BGR2GRAY)
                             sample = cv2.cvtColor(sample, cv2.COLOR_BGR2GRAY)
-                            print(np.unique(np.array(clean_image)))
-                            print(np.unique(np.array(sample)))
                             psnr_im = psnr(clean_image,sample)
                             # print(img_name[0])
                             # print(psnr_im)
