@@ -170,7 +170,7 @@ class TrainLoop:
             # wandb_logger = WandbLogger()
 
             batch, cond = next(self.data)
-            #self.run_step(batch, cond)
+            self.run_step(batch, cond)
 
 
 
