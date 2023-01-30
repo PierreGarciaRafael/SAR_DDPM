@@ -228,8 +228,6 @@ class TrainLoop:
                             clean_image = cv2.cvtColor(clean_image, cv2.COLOR_BGR2GRAY)
                             sample = cv2.cvtColor(sample, cv2.COLOR_BGR2GRAY)
                             psnr_im = psnr(clean_image,sample)
-                            # print(img_name[0])
-                            # print(psnr_im)
 
                             
                             psnr_val = psnr_val + psnr_im
@@ -241,7 +239,6 @@ class TrainLoop:
                                 speck = speck.clamp(0, 255).to(th.uint8)
                                 speck = speck.permute(0, 2, 3, 1)
                                 speck = speck.contiguous().cpu().numpy()[0]
-                                print(np.unique(np.array(speck)))
                                 print("saving some validation images to ", basePathName)
                                 cv2.imwrite(basePathName + str(self.step+1) + "speckled.png", speck)
                                 cv2.imwrite(basePathName + str(self.step+1) + "clean.png", clean_image)
