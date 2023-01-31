@@ -790,26 +790,6 @@ class SuperResModel(UNetModel):
         return super().forward(x, timesteps,low_res,low_res, **kwargs)
 
 
-class LogUNeModel(UNetModel):
-    """
-    A UNetModel applying log + affine transformation (scale * x + shift) to image channels before running UNet.
-
-    Excepts extra a and b as init parameters.
-    Defaults:
-    scale = 1 over fisher-tippett std
-    shift = fisher-tippett mean / fisher-tippett std
-    """
-    def __init__(self, image_size, in_channels, scale = np.sqrt(1/(th.pi**2/6)), shift = -0.577216*np.sqrt(1/(th.pi**2/6)), *args, **kwargs):
-        super().__init__(image_size, in_channels * 2, *args, **kwargs)
-        self.a = scale
-        self.b = shift
-    
-    def forward(self, x, timesteps, low_res=None, **kwargs):
-        _, _, new_height, new_width = x.shape
-        low_res = kwargs['SR']
-        x = th.log(x)*self.a + self.b
-        return super().forward(x, timesteps,low_res,low_res, **kwargs)
-
 
 class EncoderUNetModel(nn.Module):
     """
