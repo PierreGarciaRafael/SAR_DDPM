@@ -6,3 +6,4 @@ guideddiffusion.egg-info/**
 nohup.out
 weights/*
 *.png
+*.gz
