@@ -29,7 +29,7 @@ from skimage.metrics import structural_similarity as ssim
 
 
 
-val_dir = '../ENL/Test/512x512/noisy/'
+val_dir = '../ENL/Test/512x512/noisyimages/'
 base_path = '../testResultsLog/'
 resume_checkpoint_clean = './weights/sar_ddpm_log.pt'
 
