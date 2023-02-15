@@ -127,7 +127,7 @@ def main():
                     count += 1
             m, M = model_kwargs1['m'][0], model_kwargs1['M'][0]
             sample_new = ((sample_new/2)+.5)*(M-m)+m
-            sample_new = np.exp(sample_new)
+            sample_new = torch.exp(sample_new)
             sample_new = sample_new.clamp(0, 255).to(torch.uint8)
             sample_new = sample_new.permute(0, 2, 3, 1)
             sample_new = sample_new.contiguous().cpu().numpy()
