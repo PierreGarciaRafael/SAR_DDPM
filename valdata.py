@@ -195,8 +195,11 @@ class ValDataNewReal(data.Dataset):
         self.noisy_path = dataset_path
         self.clean_path = dataset_path
         # self.clean_path = os.path.join(dataset_path, 'clean')
-        self.images_list = os.listdir(self.noisy_path)
-
+        file_list = os.listdir(self.noisy_path)
+        self.images_list = []
+        for fileName in file_list:
+            if fileName[-3:] == "png":
+                self.images_list.append(fileName)
         
         self.crop_size = crop_size
 
