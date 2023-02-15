@@ -279,7 +279,7 @@ class ValDataNewReal(data.Dataset):
 
 
         # return arr3, {'SR': arr2, 'HR': arr1 , 'Index': image_filename}
-        return arr1, {'SR': arr2, 'HR': arr1 , 'Index': image_filename}
+        return arr1, {'SR': arr2, 'HR': arr1 , 'Index': image_filename, "m" : m, "M" : M}
 
 
 

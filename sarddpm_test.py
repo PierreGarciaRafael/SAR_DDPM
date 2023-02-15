@@ -83,7 +83,6 @@ def main():
 
             count = 0
             [t1,t2,max_r,max_c] = single_img.size()
-            
             N =9
             
             val_inputv = single_img.clone()
@@ -126,8 +125,9 @@ def main():
                         sample_new[:,:,max_r-row:,:max_c-col] = sample_new[:,:,max_r-row:,:max_c-col] + (1.0/N)*sample[:,:,:row,col:]
                         
                     count += 1
-            
-            sample_new = ((sample_new + 1) * 127.5)
+            m, M = model_kwargs1['m'], model_kwargs1['M']
+            sample_new = ((sample_new/2)+.5)*(M-m)+m
+            sample_new = np.exp(sample_new)
             sample_new = sample_new.clamp(0, 255).to(torch.uint8)
             sample_new = sample_new.permute(0, 2, 3, 1)
             sample_new = sample_new.contiguous().cpu().numpy()
