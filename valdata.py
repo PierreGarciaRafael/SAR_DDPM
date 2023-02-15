@@ -209,7 +209,7 @@ class ValDataNewReal(data.Dataset):
         pil_image = cv2.imread(os.path.join(self.noisy_path, image_filename),0)      ## SAR image
         
         # pil_image = cv2.cvtColor(pil_image, cv2.COLOR_BGR2GRAY)
-        pil_image = np.log(np.repeat(pil_image[:,:,np.newaxis],3, axis=2))
+        pil_image = np.repeat(pil_image[:,:,np.newaxis],3, axis=2)
         # print(pil_image.shape)
         
 
@@ -227,14 +227,11 @@ class ValDataNewReal(data.Dataset):
         
         arr1=np.array(pil_image)
         arr2=np.array(pil_image)
-        arr3 = arr1 + 1e-9
         # print(arr3.dtype)
-        arr3 = np.divide(arr2,arr3)
         
 
         arr1 = cv2.resize(arr1, (256,256), interpolation=cv2.INTER_LINEAR)
         arr2= cv2.resize(arr2, (256,256), interpolation=cv2.INTER_LINEAR)
-        arr3= cv2.resize(arr3, (256,256), interpolation=cv2.INTER_LINEAR)
 
         ## for grayscale images
         # arr1 = arr1[..., np.newaxis]
@@ -271,9 +268,8 @@ class ValDataNewReal(data.Dataset):
         # arr3 = arr3.astype(np.float32) / 127.5 - 1
         # arr3 = arr3.astype(np.float32)
 
-        arr2 = np.transpose(arr2, [2, 0, 1])
-        arr1 = np.transpose(arr1, [2, 0, 1])
-        arr3 = np.transpose(arr3, [2, 0, 1])
+        arr2 = np.log(np.transpose(arr2, [2, 0, 1]))
+        arr1 = np.log(np.transpose(arr1, [2, 0, 1]))
 
         # return arr3, {'SR': arr2, 'HR': arr1 , 'Index': image_filename}
         return arr1, {'SR': arr2, 'HR': arr1 , 'Index': image_filename}
