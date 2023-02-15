@@ -209,7 +209,7 @@ class ValDataNewReal(data.Dataset):
         pil_image = cv2.imread(os.path.join(self.noisy_path, image_filename),0)      ## SAR image
         
         # pil_image = cv2.cvtColor(pil_image, cv2.COLOR_BGR2GRAY)
-        pil_image = np.repeat(pil_image[:,:,np.newaxis],3, axis=2)
+        pil_image = np.log(np.repeat(pil_image[:,:,np.newaxis],3, axis=2))
         # print(pil_image.shape)
         
 
