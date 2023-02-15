@@ -125,7 +125,7 @@ def main():
                         sample_new[:,:,max_r-row:,:max_c-col] = sample_new[:,:,max_r-row:,:max_c-col] + (1.0/N)*sample[:,:,:row,col:]
                         
                     count += 1
-            m, M = model_kwargs1['m'].gpu(), model_kwargs1['M'].gpu()
+            m, M = model_kwargs1['m'][0], model_kwargs1['M'][0]
             sample_new = ((sample_new/2)+.5)*(M-m)+m
             sample_new = np.exp(sample_new)
             sample_new = sample_new.clamp(0, 255).to(torch.uint8)

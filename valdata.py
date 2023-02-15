@@ -271,8 +271,8 @@ class ValDataNewReal(data.Dataset):
 
         arr2 = np.log(np.transpose(arr2, [2, 0, 1]) + .01).astype(np.float32)
         arr1 = np.log(np.transpose(arr1, [2, 0, 1]) + .01).astype(np.float32)
-        m = np.min(arr2)[0] # based on speckled image 
-        M = np.max(arr2)[0] # because it's the only available in practice
+        m = np.min(arr2) # based on speckled image 
+        M = np.max(arr2) # because it's the only available in practice
         arr1 = 2*((arr1 - m) /(M-m)-.5) #put between -1 & 1 
         arr2 = 2*((arr2 - m) /(M-m)-.5) 
 
